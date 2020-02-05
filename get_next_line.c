@@ -1,0 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/05 08:54:38 by fde-capu          #+#    #+#             */
+/*   Updated: 2020/02/05 13:20:39 by fde-capu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "get_next_line.h"
+
+int get_next_line(int fd, char **line)
+{
+	static fdt	f;
+	fdt			*p;
+	char		*r;
+
+	p = fdisopen(fd, &f);
+	p = p ? p : newfd(fd, &f);
+	r = readline(p);
+	if (!r)
+		return (-1);
+	*line = r;
+	return (0);
+}
