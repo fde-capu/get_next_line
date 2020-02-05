@@ -6,13 +6,13 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:54:38 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/05 13:20:39 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/05 14:44:28 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static fdt	f;
 	fdt			*p;
