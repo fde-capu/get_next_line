@@ -1,4 +1,4 @@
-Hi!!!---
+Hi!!!
 	This is a test file.
 	For get_net_line.
 

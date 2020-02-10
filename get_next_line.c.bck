@@ -6,28 +6,11 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:54:38 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/10 15:39:02 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/10 14:48:59 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strcpy(char *dst, const char *src)
-{
-	char	*d;
-	char	*s;
-
-	s = (char *)src;
-	d = (char *)dst;
-	while (*s)
-	{
-		*d = *s;
-		d++;
-		s++;
-	}
-	*d = 0;
-	return (dst);
-}
 
 void	*ft_realloc(void *ptr, unsigned int size)
 {
@@ -46,22 +29,19 @@ void	*ft_realloc(void *ptr, unsigned int size)
 	return (newall);
 }
 
-int		findline(char *r, char const *set)
+int		ft_strinset(char *r, char const *set)
 {
 	char	*s;
-	int		count;
 
-	count = 0;
 	while (*r)
 	{
-		count++;
 		s = (char *)set;
 		while (*s)
 		{
 			if (*s == *r)
 			{
-				*r = 0;
-				return (count);
+				*s = 0;
+				return (1);
 			}
 			s++;
 		}
@@ -80,7 +60,6 @@ int		get_next_line(int fd, char **line)
 	r = readline(p);
 	if (!r)
 		return (-1);
-	p->wr = (char *)p->pt;
 	*line = p->pt;
 	return (r ? 1 : 0);
 }

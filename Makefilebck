@@ -1,0 +1,57 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/02/05 08:16:16 by fde-capu          #+#    #+#              #
+#    Updated: 2020/02/10 07:36:55 by fde-capu         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+BUFFER	=	3
+
+FLAGS	=	-Wall -Wextra -Werror -D BUFFER_SIZE=$(BUFFER)
+
+SRCS	=	get_next_line.c	\
+			get_next_line_utils.c
+
+GCC		=	gcc $(FLAGS) $(SRCS)
+GCCO	=	gcc -g $(FLAGS) $(SRCS)
+
+EXEF	=	a.out
+
+MAIN	=	main.c
+
+all:
+
+allt:		all
+			$(GCCO) $(MAIN)
+clean:
+			echo 'No objects to clean'
+
+fclean:		clean
+			rm -f $(EXEF)
+
+re:			fclean all
+
+t:			allt
+			./$(EXEF)
+
+rt:			fclean t
+
+ft:			norm rt
+
+norm:
+			norminette -R CheckForbiddenSourceHeader $(SRCS) $(LIB)
+
+fval:		t
+			valgrind --leak-check=full --show-leak-kinds=all ./a.out
+
+val:		t
+			valgrind ./a.out
+
+ok:			all
+			cp $(SRCS) ok
+			cp get_next_line.h ok

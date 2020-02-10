@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:57:22 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/10 15:43:35 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/10 14:46:05 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void		*init_fdtable(int fd)
 	m = malloc(sizeof(t_fdt));
 	m->pt = malloc(BUFFER_SIZE + 1);
 	m->wr = m->pt;
-	m->future = 0;
 	*(m->wr + BUFFER_SIZE) = 0;
 	m->fd = fd;
 	m->size = BUFFER_SIZE;
@@ -32,14 +31,7 @@ t_fdt		*gotofd(int fd, t_fdt *f)
 	while (1)
 	{
 		if (f->fd == fd)
-		{
-			if (f->future)
-			{
-				ft_strcpy(f->future, f->pt);
-				free(f->future);
-			}
 			return (f);
-		}
 		if (f->nx)
 			f = f->nx;
 		else
@@ -50,23 +42,6 @@ t_fdt		*gotofd(int fd, t_fdt *f)
 	}
 }
 
-void		makefuture(t_fdt *p, int r)
-{
-	void	*f;
-	int		x;
-
-	x = 0;
-	f = malloc(sizeof(BUFFER_SIZE + 1));
-	*((char *)f + BUFFER_SIZE) = 0;
-	while (*((char *)p->pt + r + x))
-	{
-		*((char *)f + x) = *((char *)p->pt + r + x);	
-		x++;
-	}
-	p->future = f;
-	return ;	
-}
-
 int			readline(t_fdt *p)
 {
 	int	r;
@@ -74,12 +49,8 @@ int			readline(t_fdt *p)
 	r = read(p->fd, p->wr, BUFFER_SIZE);
 	if (r == -1)
 		return (-1);
-	if (!r)
-		return (r);
-	r = findline(p->pt, NEW_LINE_CHARS);
-	if (r)
+	if ((r == 0) || (ft_strinset(p->pt, NEW_LINE_CHARS)))
 	{
-		makefuture(p, r);
 		return (r);
 	}
 	p->size += BUFFER_SIZE;
