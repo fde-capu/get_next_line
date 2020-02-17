@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:51:38 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/17 12:20:11 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/17 14:35:39 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ int	main(void)
 	char	*cursor = 0;
 	line = &cursor;
 	int		r = get_next_line(fd, line);
+	printf("\nReturn (1 ok, 0 eof, -1 err): %d ", r);
+	printf("Line:>>%s<<", *line);
+	r = get_next_line(fd, line);
+	printf("\nReturn (1 ok, 0 eof, -1 err): %d ", r);
+	printf("Line:>>%s<<", *line);
+	r = get_next_line(fd, line);
 	printf("\nReturn (1 ok, 0 eof, -1 err): %d ", r);
 	printf("Line:>>%s<<", *line);
 	r = get_next_line(fd, line);

@@ -6,11 +6,21 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:54:38 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/17 12:56:47 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/17 14:53:36 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	r;
+
+	r = 0;
+	while (*(s + r))
+		r++;
+	return (r);
+}
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -36,7 +46,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (c);
 }
 
-char	*findline(char *r, char const *set)
+int		findline(char *r, char const *set)
 {
 	char	*p;
 	char	*s;
@@ -50,7 +60,7 @@ char	*findline(char *r, char const *set)
 			if (*s == *p)
 			{
 				*p = 0;
-				return (p);
+				return (1);
 			}
 			s++;
 		}
@@ -66,9 +76,13 @@ int		get_next_line(int fd, char **line)
 	int				r;
 
 	p = gotofd(fd, &f);
+	if (p->finished)
+		return (0);
+	if (p->line)
+		free(p->line);
 	r = readline(p);
 	if (r == -1)
-		return (-1);
-	*line = p->bf;
+		return (r);
+	*line = p->line;
 	return (r ? 1 : 0);
 }
