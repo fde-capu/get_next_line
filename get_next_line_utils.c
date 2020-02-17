@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:57:22 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/10 15:43:35 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/17 12:57:29 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ void		*init_fdtable(int fd)
 {
 	t_fdt		*m;
 
-	m = malloc(sizeof(t_fdt));
-	m->pt = malloc(BUFFER_SIZE + 1);
-	m->wr = m->pt;
-	m->future = 0;
-	*(m->wr + BUFFER_SIZE) = 0;
+	m = ft_calloc(sizeof(t_fdt), 1);
+	m->bf = 0;
+	m->wr = 0;
 	m->fd = fd;
 	m->size = BUFFER_SIZE;
 	m->nx = 0;
@@ -29,17 +27,8 @@ void		*init_fdtable(int fd)
 
 t_fdt		*gotofd(int fd, t_fdt *f)
 {
-	while (1)
+	while (f->fd != fd)
 	{
-		if (f->fd == fd)
-		{
-			if (f->future)
-			{
-				ft_strcpy(f->future, f->pt);
-				free(f->future);
-			}
-			return (f);
-		}
 		if (f->nx)
 			f = f->nx;
 		else
@@ -48,42 +37,45 @@ t_fdt		*gotofd(int fd, t_fdt *f)
 			return (f->nx);
 		}
 	}
+	return (f);
 }
 
-void		makefuture(t_fdt *p, int r)
+void		preparenxtbuf(t_fdt *p)
 {
-	void	*f;
-	int		x;
+	char	*cp;
+	char	*tmp;
+	char	*r;
+	char	*w;
 
-	x = 0;
-	f = malloc(sizeof(BUFFER_SIZE + 1));
-	*((char *)f + BUFFER_SIZE) = 0;
-	while (*((char *)p->pt + r + x))
+	cp = findline(p->bf, NEW_LINE_CHARS);
+	p->size = cp ? BUFFER_SIZE : p->size + BUFFER_SIZE;
+	tmp = ft_calloc(p->size + 1, 1);
+	r = cp ? cp + 1 : p->bf;
+	w = tmp;
+	while ((p->bf) && (*r))
 	{
-		*((char *)f + x) = *((char *)p->pt + r + x);	
-		x++;
+		*w = *r;
+		w++;
+		r++;
 	}
-	p->future = f;
-	return ;	
+	if (p->bf)
+		free(p->bf);
+	p->bf = tmp;
+	p->wr = w;
+	return ;
 }
 
 int			readline(t_fdt *p)
 {
-	int	r;
+	int		r;
+	char	*rl;
 
+	preparenxtbuf(p);
 	r = read(p->fd, p->wr, BUFFER_SIZE);
-	if (r == -1)
-		return (-1);
-	if (!r)
+	if ((r == -1) || (!r))
 		return (r);
-	r = findline(p->pt, NEW_LINE_CHARS);
-	if (r)
-	{
-		makefuture(p, r);
-		return (r);
-	}
-	p->size += BUFFER_SIZE;
-	p->pt = ft_realloc(p->pt, p->size + 1);
-	p->wr = (char *)p->pt + (p->size - BUFFER_SIZE);
+	rl = findline(p->wr, NEW_LINE_CHARS);
+	if (rl)
+		return (1);
 	return (readline(p));
 }

@@ -6,66 +6,55 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:54:38 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/10 15:39:02 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/17 12:56:47 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strcpy(char *dst, const char *src)
+void	ft_bzero(void *s, size_t n)
 {
-	char	*d;
-	char	*s;
+	char	*p;
 
-	s = (char *)src;
-	d = (char *)dst;
-	while (*s)
+	p = s;
+	while (n--)
 	{
-		*d = *s;
-		d++;
-		s++;
+		*p = 0;
+		p++;
 	}
-	*d = 0;
-	return (dst);
+	return ;
 }
 
-void	*ft_realloc(void *ptr, unsigned int size)
+void	*ft_calloc(size_t count, size_t size)
 {
-	void	*newall;
-	int		x;
+	void	*c;
 
-	newall = malloc(size);
-	x = 0;
-	while (*((char *)ptr + x))
-	{
-		*((char *)newall + x) = *((char *)ptr + x);
-		x++;
-	}
-	*((char *)newall + x) = 0;
-	free(ptr);
-	return (newall);
+	c = malloc(count * size);
+	if (!c)
+		return (NULL);
+	ft_bzero(c, count * size);
+	return (c);
 }
 
-int		findline(char *r, char const *set)
+char	*findline(char *r, char const *set)
 {
+	char	*p;
 	char	*s;
-	int		count;
 
-	count = 0;
-	while (*r)
+	p = r;
+	while ((r) && (*p))
 	{
-		count++;
 		s = (char *)set;
 		while (*s)
 		{
-			if (*s == *r)
+			if (*s == *p)
 			{
-				*r = 0;
-				return (count);
+				*p = 0;
+				return (p);
 			}
 			s++;
 		}
-		r++;
+		p++;
 	}
 	return (0);
 }
@@ -78,9 +67,8 @@ int		get_next_line(int fd, char **line)
 
 	p = gotofd(fd, &f);
 	r = readline(p);
-	if (!r)
+	if (r == -1)
 		return (-1);
-	p->wr = (char *)p->pt;
-	*line = p->pt;
+	*line = p->bf;
 	return (r ? 1 : 0);
 }

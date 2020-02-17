@@ -1,2 +1,6 @@
-#*
-#!get_next_line*
+*
+!get_next_line*
+!main.c
+!test*
+!.giti*
+!Make*
