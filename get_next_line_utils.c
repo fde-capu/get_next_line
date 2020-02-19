@@ -6,38 +6,33 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:57:22 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/19 00:02:23 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/19 00:28:18 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*init_fdtable(int fd, t_fdt *destroy)
+void	*init_fdtable(int fd)
 {
 	t_fdt		*m;
 
-	if (destroy)
-	{
-		free(destroy->bf);
-		free(destroy->line);
-		free(destroy);
-		return (0);
-	}
 	m = ft_calloc(sizeof(t_fdt), 1);
 	m->fd = fd;
+	m->bf = ft_calloc(1, 1);
+	m->wr = m->bf;
 	return (m);
 }
 
 t_fdt	*gotofd(int fd, t_fdt *f, int create)
 {
-	while (f->fd != fd)
+	while ((f) && (f->fd != fd))
 	{
 		if (f->nx)
 			f = f->nx;
 		else
 		{
 			if (create)
-				f->nx = init_fdtable(fd, 0);
+				f->nx = init_fdtable(fd);
 			return (create ? f->nx : 0);
 		}
 	}

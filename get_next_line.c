@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:54:38 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/19 00:02:54 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/19 00:27:34 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,12 @@ int		get_next_line(int fd, char **line)
 	t_fdt			*p;
 	int				r;
 
-	p = gotofd(fd, &f, 0);
-	if (p)
+	p = gotofd(fd, &f, 1);
+	if (p->finished)
 	{
-		init_fdtable(0, p);
 		*line = "";
 		return (0);
 	}
-	p = gotofd(fd, &f, 1);
 	r = readline(p);
 	if (r == -1)
 		return (r);

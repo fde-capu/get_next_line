@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:55:57 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/18 18:53:11 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/19 00:28:24 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct	s_fdtable
 void			ft_bzero(void *s, size_t n);
 void			*ft_calloc(size_t count, size_t size);
 int				get_next_line(int fd, char **line);
-void			*init_fdtable(int fd, t_fdt *destroy);
+void			*init_fdtable(int fd);
 t_fdt			*gotofd(int fd, t_fdt *f, int create);
 int				readline(t_fdt *p);
 int				findline(char *r, char const *set);
