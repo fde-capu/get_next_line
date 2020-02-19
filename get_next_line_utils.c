@@ -6,28 +6,29 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:57:22 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/17 14:57:35 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/19 00:02:23 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*init_fdtable(int fd)
+void	*init_fdtable(int fd, t_fdt *destroy)
 {
 	t_fdt		*m;
 
+	if (destroy)
+	{
+		free(destroy->bf);
+		free(destroy->line);
+		free(destroy);
+		return (0);
+	}
 	m = ft_calloc(sizeof(t_fdt), 1);
-	m->bf = 0;
-	m->line = 0;
-	m->wr = 0;
 	m->fd = fd;
-	m->size = BUFFER_SIZE;
-	m->finished = 0;
-	m->nx = 0;
 	return (m);
 }
 
-t_fdt	*gotofd(int fd, t_fdt *f)
+t_fdt	*gotofd(int fd, t_fdt *f, int create)
 {
 	while (f->fd != fd)
 	{
@@ -35,8 +36,9 @@ t_fdt	*gotofd(int fd, t_fdt *f)
 			f = f->nx;
 		else
 		{
-			f->nx = init_fdtable(fd);
-			return (f->nx);
+			if (create)
+				f->nx = init_fdtable(fd, 0);
+			return (create ? f->nx : 0);
 		}
 	}
 	return (f);
@@ -66,12 +68,11 @@ void	spitline(t_fdt *p)
 		r++;
 		w++;
 	}
-	free((void *)p->bf);
 	p->bf = tmp;
 	return ;
 }
 
-int		preparenxtbuf(t_fdt *p)
+int		preparenxtbuf(t_fdt *p, unsigned int size)
 {
 	char	*tmp;
 	char	*r;
@@ -82,18 +83,17 @@ int		preparenxtbuf(t_fdt *p)
 		spitline(p);
 		return (1);
 	}
-	p->size += BUFFER_SIZE;
+	p->size += size;
 	tmp = ft_calloc(p->size + 1, 1);
-	r = p->bf;
 	w = tmp;
+	r = p->bf;
 	while (r && *r)
 	{
 		*w = *r;
 		w++;
 		r++;
 	}
-	if (p->bf)
-		free((void *)p->bf);
+	free(p->bf ? p->bf : 0);
 	p->bf = tmp;
 	p->wr = w;
 	return (0);
@@ -103,17 +103,23 @@ int		readline(t_fdt *p)
 {
 	int		r;
 
-	while (!preparenxtbuf(p))
+	while (1)
 	{
 		r = read(p->fd, p->wr, BUFFER_SIZE);
-		if (r == -1)
-			return (r);
-		if (r == 0)
+		if (!preparenxtbuf(p, r))
 		{
-			spitline(p);
-			p->finished = 1;
-			return (0);
+			if (r == -1)
+				return (r);
+			if (r == 0)
+			{
+				spitline(p);
+				p->finished = 1;
+				return (0);
+			}
+		}
+		else
+		{
+			return (r);
 		}
 	}
-	return (r);
 }
