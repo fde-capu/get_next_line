@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 08:16:55 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/20 18:49:26 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/20 19:11:03 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int		get_next_line(int fd, char **line)
 	if (p)
 	{
 		*p = 0;
-		free(save);
-		save = ft_strcat(p + 1, 0);
 	}
+	free(save);
+	save = p ? ft_strcat(p + 1, 0) : 0;
 //	printf("line w/o: _%s_ : save: _%s_\n", *line, save);
 	return (r ? 1 : 0);
 }
