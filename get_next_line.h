@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:55:57 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/19 00:28:24 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/19 01:47:47 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +17,31 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>//
 # define NEW_LINE_CHARS "\n"
 
-typedef struct	s_fdtable
-{
-	void				*bf;
-	char				*wr;
-	char				*line;
-	int					fd;
-	int					size;
-	int					finished;
-	struct s_fdtable	*nx;
-}				t_fdt;
+//typedef struct	s_fdtable
+//{
+//	int					fd;
+//	char				*line;
+//	char				buffer[BUFFER_SIZE];
+//	char				*cursor;
+//	struct s_fdtable	*nx;
+//}				t_fdt;
 
-void			ft_bzero(void *s, size_t n);
-void			*ft_calloc(size_t count, size_t size);
-int				get_next_line(int fd, char **line);
-void			*init_fdtable(int fd);
-t_fdt			*gotofd(int fd, t_fdt *f, int create);
-int				readline(t_fdt *p);
-int				findline(char *r, char const *set);
-int				preparenxtbuf(t_fdt *p, unsigned int size);
+/*
+** get_next_line_utils.c
+*/
+//t_fdt			*init_fd(int fd);
+void			*ft_memmove(void *dst, const void *src, size_t len);
+char			*ft_strchr(const char *s, int c);
 size_t			ft_strlen(const char *s);
-void			spitline(t_fdt *p);
+void			*ft_calloc(size_t count, size_t size);
+char			*ft_strcat(const char *dst, const char *src);
+
+/*
+** get_next_line.c
+*/
+int				get_next_line(int fd, char **line);
 
 #endif

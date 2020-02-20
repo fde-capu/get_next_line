@@ -5,85 +5,54 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/05 08:54:38 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/19 00:27:34 by fde-capu         ###   ########.fr       */
+/*   Created: 2020/02/20 08:16:55 by fde-capu          #+#    #+#             */
+/*   Updated: 2020/02/20 18:49:26 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	r;
-
-	r = 0;
-	while (*(s + r))
-		r++;
-	return (r);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	char	*p;
-
-	p = s;
-	while (n--)
-	{
-		*p = 0;
-		p++;
-	}
-	return ;
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*c;
-
-	c = malloc(count * size);
-	if (!c)
-		return (NULL);
-	ft_bzero(c, count * size);
-	return (c);
-}
-
-int		findline(char *r, char const *set)
-{
-	char	*p;
-	char	*s;
-
-	p = r;
-	while ((r) && (*p))
-	{
-		s = (char *)set;
-		while (*s)
-		{
-			if (*s == *p)
-			{
-				*p = 0;
-				return (1);
-			}
-			s++;
-		}
-		p++;
-	}
-	return (0);
-}
-
 int		get_next_line(int fd, char **line)
 {
-	static t_fdt	f;
-	t_fdt			*p;
-	int				r;
+	int		r;
+	char	*buffer;
+	char	bufstack[BUFFER_SIZE + 1];
+	char	*p;
+	static char	*save;
+	char	*foo;
 
-	p = gotofd(fd, &f, 1);
-	if (p->finished)
+	bufstack[BUFFER_SIZE] = 0;
+	bufstack[0] = 0;
+	*line = 0;
+	r = -2;
+	save = save ? save : ft_strcat(0, 0);
+	while ((!ft_strchr(&bufstack[0], '\n')) && (r) && (!ft_strchr(save, '\n')))
 	{
-		*line = "";
-		return (0);
+		buffer = &bufstack[0];
+		bufstack[0] = 0;
+		r = read(fd, buffer, BUFFER_SIZE);
+		if (r == -1)
+			return (r);
+		bufstack[r] = 0;
+//		printf("line: _%s_ b0: _%s_ --> ", *line, &bufstack[0]);
+		foo = *line;
+		*line = ft_strcat(*line, &bufstack[0]);
+		free(foo);
+//		printf("line: _%s_ \n", *line);
 	}
-	r = readline(p);
-	if (r == -1)
-		return (r);
-	*line = p->line;
+	r = r == -2 && !ft_strchr(save, '\n') ? 0 : r;
+//	printf("save: _%s_ line: _%s_ --> ", save, *line);
+	foo = *line;
+	*line = ft_strcat(save, *line);
+	free(foo);
+//	printf("line w: _%s_ ...", *line);
+	p = ft_strchr(*line, '\n');
+	if (p)
+	{
+		*p = 0;
+		free(save);
+		save = ft_strcat(p + 1, 0);
+	}
+//	printf("line w/o: _%s_ : save: _%s_\n", *line, save);
 	return (r ? 1 : 0);
 }
