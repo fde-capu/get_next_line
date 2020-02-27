@@ -6,7 +6,7 @@
 #    By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/05 08:16:16 by fde-capu          #+#    #+#              #
-#    Updated: 2020/02/10 14:19:09 by fde-capu         ###   ########.fr        #
+#    Updated: 2020/02/19 00:35:40 by fde-capu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ MAIN	=	main.c
 
 all:
 
-allt:		all
+allt:		all zzz
 			$(GCCO) $(MAIN)
 clean:
 			echo 'No objects to clean'
@@ -61,3 +61,6 @@ ok:			all
 			norminette -R CheckForbiddenSourceHeader ok/get_next_line.c
 			norminette -R CheckForbiddenSourceHeader ok/get_next_line.h
 			norminette -R CheckForbiddenSourceHeader ok/get_next_line_utils.c
+
+zzz:
+			cp get_next_line* ~/_avail/get_next_line/zzz

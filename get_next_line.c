@@ -6,11 +6,25 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:54:38 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/19 00:27:34 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/19 02:25:05 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	char		*d;
+	const char	*s;
+
+	if ((!dst) && (!src))
+		return (NULL);
+	d = dst;
+	s = src;
+	while (n--)
+		*d++ = *s++;
+	return (dst);
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -22,27 +36,20 @@ size_t	ft_strlen(const char *s)
 	return (r);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	char	*p;
-
-	p = s;
-	while (n--)
-	{
-		*p = 0;
-		p++;
-	}
-	return ;
-}
-
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*c;
+	char	*z;
 
 	c = malloc(count * size);
 	if (!c)
 		return (NULL);
-	ft_bzero(c, count * size);
+	z = c;
+	while (z - c < count * size)
+	{
+		*z = 0;
+		z++;
+	}
 	return (c);
 }
 
@@ -60,7 +67,7 @@ int		findline(char *r, char const *set)
 			if (*s == *p)
 			{
 				*p = 0;
-				return (1);
+				return (p - r + 1);
 			}
 			s++;
 		}

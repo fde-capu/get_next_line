@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 08:57:22 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/19 00:28:18 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/02/19 02:35:30 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	*init_fdtable(int fd)
 
 	m = ft_calloc(sizeof(t_fdt), 1);
 	m->fd = fd;
-	m->bf = ft_calloc(1, 1);
-	m->wr = m->bf;
 	return (m);
 }
 
@@ -41,11 +39,13 @@ t_fdt	*gotofd(int fd, t_fdt *f, int create)
 
 void	spitline(t_fdt *p)
 {
-	char	*r;
-	char	*w;
-	char	*tmp;
+	char			*r;
+	char			*w;
+	unsigned int	size;
+	char			*tmp;
 
-	p->line = ft_calloc(ft_strlen(p->bf) + 1, 1);
+	size = ft_strlen(p->bf);
+	p->line = ft_calloc(size + 1, 1);
 	w = p->line;
 	r = p->bf;
 	while (*r)
@@ -55,7 +55,8 @@ void	spitline(t_fdt *p)
 		w++;
 	}
 	r++;
-	tmp = ft_calloc(BUFFER_SIZE + 1, 1);
+	p->size -= size;
+	tmp = ft_calloc(p->size + 1, 1);
 	w = tmp;
 	while (*r)
 	{
@@ -63,6 +64,7 @@ void	spitline(t_fdt *p)
 		r++;
 		w++;
 	}
+	free(tmp);
 	p->bf = tmp;
 	return ;
 }
@@ -90,31 +92,24 @@ int		preparenxtbuf(t_fdt *p, unsigned int size)
 	}
 	free(p->bf ? p->bf : 0);
 	p->bf = tmp;
-	p->wr = w;
 	return (0);
 }
 
 int		readline(t_fdt *p)
 {
-	int		r;
+	int		rds;
+	int		fl;
+	char	*wx;
 
-	while (1)
+	wx = p->wr;
+	rds = read(p->fd, p->wr, BUFFER_SIZE);
+	if (rds == -1)
+		return (rds);
+	fl = findline(rad, NEW_LINE_CHARS);
+	if ((fl) || (!rds))
 	{
-		r = read(p->fd, p->wr, BUFFER_SIZE);
-		if (!preparenxtbuf(p, r))
-		{
-			if (r == -1)
-				return (r);
-			if (r == 0)
-			{
-				spitline(p);
-				p->finished = 1;
-				return (0);
-			}
-		}
-		else
-		{
-			return (r);
-		}
+		p->line = ft_calloc(fl ? fl : ft_strlen(wx), 1);
+		p->line = ft_memcpy(p->line, rd, fl);
+		return (rds);
 	}
 }
