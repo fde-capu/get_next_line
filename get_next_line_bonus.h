@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/27 16:18:05 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/27 18:41:49 by fde-capu         ###   ########.fr       */
+/*   Created: 2020/02/27 18:48:05 by fde-capu          #+#    #+#             */
+/*   Updated: 2020/02/27 18:55:04 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 
 int		get_next_line(int fd, char **line);
 int		findnl(char *s);

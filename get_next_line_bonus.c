@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/27 16:17:57 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/27 18:41:21 by fde-capu         ###   ########.fr       */
+/*   Created: 2020/02/27 18:48:01 by fde-capu          #+#    #+#             */
+/*   Updated: 2020/02/27 19:09:22 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	clear(char *s)
 {
@@ -27,14 +27,14 @@ void	clear(char *s)
 
 int		get_next_line(int fd, char **line)
 {
-	static char	save[BUFFER_SIZE + 1];
+	static char	save[OPEN_MAX][BUFFER_SIZE + 1];
 	int			r;
 	char		tmp[BUFFER_SIZE + 1];
 	char		*buf;
 
 	if ((!line) || BUFFER_SIZE == 0)
 		return (-1);
-	*line = concat(NULL, save);
+	*line = concat(NULL, save[fd]);
 	r = 1;
 	while ((r) && (!findnl(*line)))
 	{
@@ -48,7 +48,7 @@ int		get_next_line(int fd, char **line)
 		tmp[r] = 0;
 		*line = concat(*line, tmp);
 	}
-	clear(save);
-	dosave(*line, save);
+	clear(save[fd]);
+	dosave(*line, save[fd]);
 	return (r ? 1 : 0);
 }

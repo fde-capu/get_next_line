@@ -1,8 +1,0 @@
-Hi!!!
-	This is a test file.
-	For get_next_line.
-
-It should read one line at the time.
-For instance, this is line 6.
-
-						Thanks for testing!
