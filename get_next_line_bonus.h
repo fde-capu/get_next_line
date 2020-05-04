@@ -6,12 +6,12 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 18:48:05 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/27 18:55:04 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/05/04 11:02:39 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <sys/types.h>
 # include <sys/uio.h>
