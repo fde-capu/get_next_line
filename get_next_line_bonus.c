@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 18:48:01 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/05/14 17:13:37 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/05/14 18:45:28 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int		get_next_line(int fd, char **line)
 		buf = tmp;
 		r = read(fd, buf, BUFFER_SIZE);
 		if (r == -1)
+		{
+			*line = NULL;
 			return (r);
+		}
 		tmp[r] = 0;
 		*line = concat(*line, tmp);
 	}
