@@ -4,7 +4,7 @@
 #include<stdbool.h>
 #include<string.h>
 #include<time.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	main(void)
 {
@@ -25,6 +25,8 @@ int	main(void)
 		r2 = get_next_line(fd2, &c2);
 		if (r2)
 			printf("(%d) %d: _%s_\n", fd2, r2, c2);
+		free(c);
+		free(c2);
 	}
 	return (0);
 }

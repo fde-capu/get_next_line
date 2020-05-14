@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 18:48:01 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/27 19:09:22 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/05/14 17:13:37 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	clear(char *s)
 
 int		get_next_line(int fd, char **line)
 {
-	static char	save[OPEN_MAX][BUFFER_SIZE + 1];
+	static char	save[256][BUFFER_SIZE + 1];
 	int			r;
 	char		tmp[BUFFER_SIZE + 1];
 	char		*buf;
@@ -41,10 +41,7 @@ int		get_next_line(int fd, char **line)
 		buf = tmp;
 		r = read(fd, buf, BUFFER_SIZE);
 		if (r == -1)
-		{
-			*line = NULL;
 			return (r);
-		}
 		tmp[r] = 0;
 		*line = concat(*line, tmp);
 	}

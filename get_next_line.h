@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:18:05 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/27 18:41:49 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/05/14 17:16:36 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 int		get_next_line(int fd, char **line);
 int		findnl(char *s);
 int		len(char *s);
-char	*concat(char *a, char *b);
+char	*concat(char *str_a, char *str_b);
 void	dosave(char *l, char *s);
 void	clear(char *s);
 

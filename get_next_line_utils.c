@@ -6,7 +6,7 @@
 /*   By: fde-capu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:18:01 by fde-capu          #+#    #+#             */
-/*   Updated: 2020/02/27 18:37:00 by fde-capu         ###   ########.fr       */
+/*   Updated: 2020/05/14 16:43:07 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,17 @@ int		len(char *s)
 	return (c);
 }
 
-char	*concat(char *a, char *b)
+char	*concat(char *str_a, char *str_b)
 {
-	char	*f;
 	char	*out;
 	char	*p;
+	char	*a;
+	char	*b;
 
-	out = malloc(len(a) + len(b) + 1);
+	out = malloc(len(str_a) + len(str_b) + 1);
 	p = out;
-	f = a;
+	a = str_a;
+	b = str_b;
 	while ((a) && (*a))
 	{
 		*p = *a;
@@ -58,7 +60,7 @@ char	*concat(char *a, char *b)
 		b++;
 	}
 	*p = 0;
-	free(f);
+	free(str_a);
 	return (out);
 }
 
